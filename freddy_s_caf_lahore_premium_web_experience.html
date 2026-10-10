@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freddy's Café Lahore — Serving Lahore Since 2001</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: {
+                            DEFAULT: '#4A0E17',
+                            dark: '#350A10',
+                            light: '#62131F'
+                        },
+                        cream: {
+                            DEFAULT: '#FAF6F0',
+                            dark: '#EFE7DA',
+                            card: '#FFFDF9'
+                        },
+                        charcoal: {
+                            DEFAULT: '#1C1A1A',
+                            light: '#2B2828',
+                            dark: '#121111'
+                        },
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#E6C762',
+                            dark: '#B59223'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS Styles -->
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1C1A1A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4A0E17;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-cream font-sans antialiased selection:bg-gold selection:text-charcoal">
+
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-40 bg-charcoal-dark/95 backdrop-blur-md border-b border-gold/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-full bg-gradient-to-br from-burgundy to-charcoal border border-gold/60 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                    <span class="text-gold font-serif font-bold text-2xl">F</span>
+                </div>
+                <div>
+                    <span class="font-serif text-xl sm:text-2xl font-bold tracking-wider text-cream block leading-none">
+                        FREDDY'S <span class="text-gold font-normal">CAFÉ</span>
+                    </span>
+                    <span class="text-[10px] tracking-widest text-gold/80 uppercase block mt-1">
+                        Lahore • Est. 2001
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-7 text-sm font-medium tracking-wide">
+                <a href="#home" class="hover:text-gold transition-colors py-1">Home</a>
+                <a href="#about" class="hover:text-gold transition-colors py-1">About Us</a>
+                <a href="#menu" class="hover:text-gold transition-colors py-1">Menu</a>
+                <a href="#signature" class="hover:text-gold transition-colors py-1">Signature</a>
+                <a href="#hightea" class="hover:text-gold transition-colors py-1">High Tea</a>
+                <a href="#gallery" class="hover:text-gold transition-colors py-1">Gallery</a>
+                <a href="#reservations" class="hover:text-gold transition-colors py-1">Reservations</a>
+                <a href="#contact" class="hover:text-gold transition-colors py-1">Contact</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="hidden sm:flex items-center gap-4">
+                <button onclick="openTrayModal()" class="relative p-2.5 rounded-full bg-charcoal-light text-cream hover:text-gold border border-gold/30 transition-all hover:scale-105">
+                    <i class="fa-solid font-bold fa-utensils"></i>
+                    <span id="trayCountBadge" class="hidden absolute -top-1 -right-1 bg-burgundy text-gold font-bold text-[10px] w-5 h-5 rounded-full border border-gold flex items-center justify-center">0</span>
+                </button>
+
+                <a href="#reservations" class="bg-gradient-to-r from-burgundy to-burgundy-dark hover:from-burgundy-light hover:to-burgundy text-cream border border-gold/50 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase shadow-md hover:shadow-gold/10 transition-all flex items-center gap-2">
+                    <i class="fa-regular fa-calendar-check text-gold"></i>
+                    Reserve Table
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex lg:hidden items-center gap-3">
+                <button onclick="openTrayModal()" class="p-2 rounded-lg bg-charcoal-light text-cream">
+                    <i class="fa-solid fa-utensils"></i>
+                </button>
+                <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="p-2 text-cream hover:text-gold focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-charcoal border-b border-gold/20 px-6 py-6 space-y-4">
+            <nav class="flex flex-col gap-3 text-base font-medium">
+                <a href="#home" onclick="toggleMobileMenu()" class="hover:text-gold py-1">Home</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="hover:text-gold py-1">About Us</a>
+                <a href="#menu" onclick="toggleMobileMenu()" class="hover:text-gold py-1">Interactive Menu</a>
+                <a href="#signature" onclick="toggleMobileMenu()" class="hover:text-gold py-1">Signature Creations</a>
+                <a href="#hightea" onclick="toggleMobileMenu()" class="hover:text-gold py-1">High Tea Experience</a>
+                <a href="#gallery" onclick="toggleMobileMenu()" class="hover:text-gold py-1">Photo Gallery</a>
+                <a href="#reservations" onclick="toggleMobileMenu()" class="hover:text-gold py-1">Reservations</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="hover:text-gold py-1">Contact & Directions</a>
+            </nav>
+            <div class="pt-4 border-t border-white/10 flex flex-col gap-3">
+                <a href="#reservations" onclick="toggleMobileMenu()" class="w-full text-center bg-burgundy text-cream py-3 rounded-xl border border-gold/40 font-semibold text-sm uppercase tracking-wider">
+                    Reserve A Table
+                </a>
+                <a href="https://wa.me/924235754416" target="_blank" class="w-full text-center bg-emerald-600/20 text-emerald-400 border border-emerald-500/40 py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Direct WhatsApp Enquiry
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-black">
+        <!-- Hero Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1920&q=80" alt="Freddy's Cafe Steak Dish" class="w-full h-full object-cover opacity-40 scale-105 transform">
+            <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-20 flex flex-col items-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-burgundy/80 border border-gold/50 text-gold text-xs sm:text-sm font-semibold tracking-widest uppercase mb-6 shadow-xl backdrop-blur-sm">
+                <i class="fa-solid fa-crown text-xs"></i>
+                Serving Lahore Since 2001 • MM Alam Road
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight text-cream leading-tight mb-6 max-w-4xl drop-shadow-md">
+                A Taste Worth Coming Back For.
+            </h1>
+
+            <p class="text-base sm:text-xl text-cream/90 max-w-2xl font-light mb-10 leading-relaxed">
+                Discover exceptional flavours, timeless continental favourites, and memorable family dining at MM Alam Road's original favourite.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
+                <a href="#menu" class="bg-gold hover:bg-gold-light text-charcoal font-bold px-8 py-4 rounded-full text-sm uppercase tracking-wider transition-all shadow-xl shadow-gold/10 flex items-center justify-center gap-3">
+                    Explore Our Menu
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </a>
+                <a href="#reservations" class="bg-burgundy/80 hover:bg-burgundy border border-gold/50 text-cream font-semibold px-8 py-4 rounded-full text-sm uppercase tracking-wider transition-all backdrop-blur-md flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-calendar text-gold"></i>
+                    Reserve a Table
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats Strip -->
+    <section class="bg-charcoal-light border-y border-gold/20 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="p-4 rounded-xl bg-charcoal/50 border border-white/5">
+                <div class="text-gold font-serif text-3xl font-bold mb-1">2001</div>
+                <p class="text-[11px] text-cream/70 uppercase tracking-wider">Established Year</p>
+            </div>
+            <div class="p-4 rounded-xl bg-charcoal/50 border border-white/5">
+                <div class="text-gold font-serif text-3xl font-bold mb-1">Gulberg III</div>
+                <p class="text-[11px] text-cream/70 uppercase tracking-wider">MM Alam Road Location</p>
+            </div>
+            <div class="p-4 rounded-xl bg-charcoal/50 border border-white/5">
+                <div class="text-gold font-serif text-3xl font-bold mb-1">10+</div>
+                <p class="text-[11px] text-cream/70 uppercase tracking-wider">Culinary Categories</p>
+            </div>
+            <div class="p-4 rounded-xl bg-charcoal/50 border border-white/5">
+                <div class="text-gold font-serif text-3xl font-bold mb-1">High Tea</div>
+                <p class="text-[11px] text-cream/70 uppercase tracking-wider">Famous Afternoon Buffet</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-24 bg-charcoal relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <!-- Visual Media Stack -->
+                <div class="relative">
+                    <div class="relative z-10 rounded-2xl overflow-hidden border border-gold/30 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80" alt="Freddy's Cafe Dining Atmosphere" class="w-full h-[450px] object-cover">
+                    </div>
+                    <div class="absolute -bottom-8 -right-6 z-20 hidden sm:block w-64 rounded-xl overflow-hidden border-2 border-gold shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=600&q=80" alt="Continental Dish" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+
+                <!-- Content Story -->
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 text-gold text-xs font-semibold tracking-widest uppercase">
+                        <i class="fa-solid fa-award"></i>
+                        Our Culinary Story
+                    </div>
+
+                    <h2 className="text-3xl sm:text-5xl font-serif font-bold text-cream leading-tight">
+                        Serving Lahore's Finest Comfort & Fine Dining Since 2001
+                    </h2>
+
+                    <p class="text-cream/80 text-base leading-relaxed font-light">
+                        For over two decades, <strong class="text-gold font-semibold">Freddy’s Café</strong> has been a pioneer on MM Alam Road, Gulberg III. We bring together classic American diner warmth and contemporary continental fine dining in an inviting atmosphere suited for family dinners, high-tea gatherings, and special occasions.
+                    </p>
+
+                    <p class="text-cream/80 text-base leading-relaxed font-light">
+                        From our prime tender steaks and signature Moroccan Chicken to our famous High Tea buffet and decadent Nutella cakes, every recipe is crafted to create memorable culinary moments.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        <div class="flex items-start gap-3 p-3.5 rounded-xl bg-charcoal-light/60 border border-white/5">
+                            <i class="fa-solid fa-shield-halved text-gold text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-sm text-cream">Quality Cuisine</h4>
+                                <p class="text-xs text-cream/60">Selected prime beef, poultry & fresh seafood.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3.5 rounded-xl bg-charcoal-light/60 border border-white/5">
+                            <i class="fa-solid fa-mug-hot text-gold text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-sm text-cream">Iconic High Tea</h4>
+                                <p class="text-xs text-cream/60">Lahore's beloved afternoon spread.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Food Menu Section -->
+    <section id="menu" class="py-24 bg-charcoal-dark border-t border-gold/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-gold text-xs font-semibold tracking-widest uppercase block mb-2">Verified Menu Selections</span>
+                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-cream mb-4">Interactive Menu</h2>
+                <p class="text-cream/70 text-sm sm:text-base">Filter by category or search directly for your favourite continental dishes.</p>
+            </div>
+
+            <!-- Search & Filters -->
+            <div class="space-y-6 mb-12">
+                <!-- Search Box -->
+                <div class="max-w-md mx-auto relative">
+                    <i class="fa-solid fa-magnifying-glass text-gold absolute left-4 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="menuSearchInput" oninput="filterMenuItems()" placeholder="Search chicken, steaks, prawns, pasta..." class="w-full bg-charcoal-light text-cream pl-12 pr-10 py-3.5 rounded-full border border-gold/30 focus:outline-none focus:border-gold placeholder-cream/40 text-sm transition-all">
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-none no-scrollbar justify-start sm:justify-center" id="categoryTabsContainer">
+                    <!-- Dynamic tabs populated via JS -->
+                </div>
+            </div>
+
+            <!-- Menu Cards Grid -->
+            <div id="menuCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamic cards populated via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyMenuState" class="hidden text-center py-16 bg-charcoal-light/30 rounded-2xl border border-dashed border-white/10">
+                <i class="fa-solid fa-utensils text-4xl text-gold/40 mb-3 block"></i>
+                <p class="text-lg font-medium text-cream">No dishes found matching your search.</p>
+                <button onclick="resetMenuFilters()" class="mt-4 bg-burgundy text-gold px-5 py-2 rounded-full text-xs font-semibold border border-gold/40">Reset Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signature Dishes Section -->
+    <section id="signature" class="py-24 bg-charcoal relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div>
+                    <span class="text-gold text-xs font-semibold tracking-widest uppercase block mb-2">Chef Highlights</span>
+                    <h2 className="text-3xl sm:text-5xl font-serif font-bold text-cream">Signature Dishes</h2>
+                </div>
+                <p class="text-cream/70 text-sm max-w-md">Selected house favourites that have defined Freddy's Café's dining legacy on MM Alam Road since 2001.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Moroccan Chicken -->
+                <div class="bg-charcoal-light rounded-2xl overflow-hidden border border-gold/20 hover:border-gold transition-all duration-300 shadow-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=80" alt="Moroccan Chicken" class="w-full h-full object-cover">
+                            <span class="absolute top-4 left-4 bg-gold text-charcoal font-bold text-[10px] uppercase px-3 py-1 rounded-full">House Specialty</span>
+                            <span class="absolute bottom-4 right-4 bg-burgundy text-gold font-serif font-bold text-sm px-4 py-1.5 rounded-full border border-gold/40">PKR 1,995</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif font-bold text-cream mb-2">Moroccan Chicken</h3>
+                            <p class="text-xs text-cream/70 leading-relaxed font-light">Grilled succulent chicken breast smothered in authentic spicy Moroccan sauce, served with seasoned rice and fresh pan-grilled vegetables.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="addToTray('m5')" class="w-full bg-burgundy hover:bg-burgundy-light text-cream border border-gold/40 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus text-gold"></i> Add to Enquiry Tray
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Prime Beef Steak -->
+                <div class="bg-charcoal-light rounded-2xl overflow-hidden border border-gold/20 hover:border-gold transition-all duration-300 shadow-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Prime Beef Steak" class="w-full h-full object-cover">
+                            <span class="absolute top-4 left-4 bg-gold text-charcoal font-bold text-[10px] uppercase px-3 py-1 rounded-full">Bestseller</span>
+                            <span class="absolute bottom-4 right-4 bg-burgundy text-gold font-serif font-bold text-sm px-4 py-1.5 rounded-full border border-gold/40">PKR 2,895</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif font-bold text-cream mb-2">Freddy's Prime Beef Steak</h3>
+                            <p class="text-xs text-cream/70 leading-relaxed font-light">Prime undercut beef steak seared to perfection with choice of Black Pepper, Mushroom, or Jalapeño sauce, accompanied by potato gratin.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="addToTray('m10')" class="w-full bg-burgundy hover:bg-burgundy-light text-cream border border-gold/40 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus text-gold"></i> Add to Enquiry Tray
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nutella Chocolate Cake -->
+                <div class="bg-charcoal-light rounded-2xl overflow-hidden border border-gold/20 hover:border-gold transition-all duration-300 shadow-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80" alt="Nutella Chocolate Cake" class="w-full h-full object-cover">
+                            <span class="absolute top-4 left-4 bg-gold text-charcoal font-bold text-[10px] uppercase px-3 py-1 rounded-full">Dessert Icon</span>
+                            <span class="absolute bottom-4 right-4 bg-burgundy text-gold font-serif font-bold text-sm px-4 py-1.5 rounded-full border border-gold/40">PKR 950</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif font-bold text-cream mb-2">Nutella Chocolate Cake</h3>
+                            <p class="text-xs text-cream/70 leading-relaxed font-light">Moist multi-layer fudge cake filled and lavishly frosted with rich creamy Nutella cocoa spread.</p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="addToTray('m14')" class="w-full bg-burgundy hover:bg-burgundy-light text-cream border border-gold/40 py-3 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus text-gold"></i> Add to Enquiry Tray
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- High Tea Section -->
+    <section id="hightea" class="py-24 bg-gradient-to-b from-charcoal via-charcoal-light to-charcoal border-y border-gold/20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-burgundy border border-gold/40 text-gold text-xs font-bold uppercase tracking-widest">
+                        <i class="fa-solid fa-mug-hot"></i> Daily Afternoon Buffet
+                    </div>
+
+                    <h2 className="text-3xl sm:text-5xl font-serif font-bold text-cream leading-tight">
+                        The Famous Freddy’s High Tea Spread
+                    </h2>
+
+                    <p class="text-cream/80 text-sm sm:text-base leading-relaxed font-light">
+                        Renowned as one of Gulberg's most cherished afternoon traditions, our high-tea buffet features a lavish assortment of savoury hors d'oeuvres, live pasta stations, fresh salads, and exquisite mini desserts.
+                    </p>
+
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center gap-3 text-xs sm:text-sm text-cream">
+                            <i class="fa-solid fa-circle-check text-gold shrink-0"></i>
+                            <span>Savoury Highlights: Sliders, Quiches, Tempura Prawns & Chaat</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-xs sm:text-sm text-cream">
+                            <i class="fa-solid fa-circle-check text-gold shrink-0"></i>
+                            <span>Live Food Counters: Fresh Alfredo & Spicy Arrabiata Pasta</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-xs sm:text-sm text-cream">
+                            <i class="fa-solid fa-circle-check text-gold shrink-0"></i>
+                            <span>Dessert Corner: Cheesecakes, Nutella Cakes, Tarts & Mousse Shots</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 flex flex-wrap gap-4">
+                        <a href="https://wa.me/924235754416?text=Hello%20Freddy's%20Café,%20I%20would%20like%20to%20inquire%20about%20High%20Tea%20buffet%20timings%20and%20slot%20reservations." target="_blank" class="bg-gold hover:bg-gold-light text-charcoal font-bold px-7 py-3.5 rounded-full text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-xl">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            Contact for High Tea Slots
+                        </a>
+                        <a href="#reservations" class="bg-charcoal hover:bg-charcoal-light border border-white/20 text-cream font-semibold px-6 py-3.5 rounded-full text-xs uppercase tracking-wider transition-all">
+                            Reserve High Tea Table
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="rounded-2xl overflow-hidden border-2 border-gold/40 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1000&q=80" alt="High Tea Buffet Spread" class="w-full h-[480px] object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-24 bg-charcoal-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-gold text-xs font-semibold tracking-widest uppercase block mb-2">Visual Moments</span>
+                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-cream mb-4">Restaurant Gallery</h2>
+                <p class="text-cream/70 text-sm">Explore the ambiance, cuisine, and dining experience at Freddy's Café Lahore.</p>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div onclick="openLightbox('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80', 'Main Dining Hall Atmosphere')" class="group relative h-64 rounded-xl overflow-hidden border border-white/5 cursor-pointer bg-charcoal-light">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80" alt="Dining Room" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                        <span class="text-xs font-serif font-medium text-cream">Main Dining Hall Atmosphere</span>
+                    </div>
+                </div>
+
+                <div onclick="openLightbox('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80', 'Signature Prime Undercut Steak')" class="group relative h-64 rounded-xl overflow-hidden border border-white/5 cursor-pointer bg-charcoal-light">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Steak" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                        <span class="text-xs font-serif font-medium text-cream">Signature Prime Undercut Steak</span>
+                    </div>
+                </div>
+
+                <div onclick="openLightbox('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80', 'High Tea Pastry Counter')" class="group relative h-64 rounded-xl overflow-hidden border border-white/5 cursor-pointer bg-charcoal-light">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="High Tea" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                        <span class="text-xs font-serif font-medium text-cream">High Tea Pastry Counter</span>
+                    </div>
+                </div>
+
+                <div onclick="openLightbox('https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=1200&q=80', 'Dynamite Prawns Starter')" class="group relative h-64 rounded-xl overflow-hidden border border-white/5 cursor-pointer bg-charcoal-light">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80" alt="Dynamite Prawns" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex items-end">
+                        <span class="text-xs font-serif font-medium text-cream">Dynamite Prawns Starter</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Lightbox Modal -->
+    <div id="lightboxModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4" onclick="closeLightbox()">
+        <div class="relative max-w-4xl w-full bg-charcoal border border-gold/40 rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/60 text-white hover:text-gold">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <img id="lightboxImage" src="" alt="Gallery Image" class="w-full max-h-[75vh] object-cover">
+            <div class="p-6 bg-charcoal-light flex items-center justify-between">
+                <h4 id="lightboxCaption" class="text-base font-serif font-bold text-cream">Caption</h4>
+                <a href="#reservations" onclick="closeLightbox()" class="bg-burgundy text-gold px-4 py-2 rounded-lg text-xs font-bold border border-gold/30">Book A Table</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reservations Section -->
+    <section id="reservations" class="py-24 bg-charcoal relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto bg-charcoal-light rounded-3xl border border-gold/30 p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-gold text-xs font-semibold tracking-widest uppercase block mb-2">Table Booking</span>
+                    <h2 className="text-3xl sm:text-4xl font-serif font-bold text-cream mb-3">Reserve Your Experience</h2>
+                    <p class="text-cream/70 text-xs sm:text-sm">Submit your booking request below. Form details will sync with our MM Alam host desk via WhatsApp.</p>
+                </div>
+
+                <form id="reservationForm" onsubmit="handleReservationSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-gold uppercase tracking-wider mb-2">Full Name *</label>
+                            <input type="text" id="resName" required placeholder="e.g. Ali Ahmed" class="w-full bg-charcoal text-cream px-4 py-3 rounded-xl border border-white/10 focus:border-gold focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gold uppercase tracking-wider mb-2">Phone / WhatsApp *</label>
+                            <input type="tel" id="resPhone" required placeholder="e.g. +92 300 1234567" class="w-full bg-charcoal text-cream px-4 py-3 rounded-xl border border-white/10 focus:border-gold focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gold uppercase tracking-wider mb-2">Preferred Date *</label>
+                            <input type="date" id="resDate" required class="w-full bg-charcoal text-cream px-4 py-3 rounded-xl border border-white/10 focus:border-gold focus:outline-none text-sm">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gold uppercase tracking-wider mb-2">Time Slot</label>
+                                <select id="resTime" class="w-full bg-charcoal text-cream px-3 py-3 rounded-xl border border-white/10 focus:border-gold focus:outline-none text-sm">
+                                    <option value="12:30 PM">12:30 PM</option>
+                                    <option value="02:00 PM">02:00 PM</option>
+                                    <option value="04:30 PM (High Tea)">04:30 PM (High Tea)</option>
+                                    <option value="07:30 PM">07:30 PM</option>
+                                    <option value="09:30 PM">09:30 PM</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gold uppercase tracking-wider mb-2">Guests</label>
+                                <select id="resGuests" class="w-full bg-charcoal text-cream px-3 py-3 rounded-xl border border-white/10 focus:border-gold focus:outline-none text-sm">
+                                    <option value="1">1 Person</option>
+                                    <option value="2">2 Persons</option>
+                                    <option value="4">4 Persons</option>
+                                    <option value="6">6 Persons</option>
+                                    <option value="8+ Large Group">8+ Group</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gold uppercase tracking-wider mb-2">Special Requests (Optional)</label>
+                        <textarea id="resNotes" rows="3" placeholder="e.g. Birthday celebration, indoor table preference..." class="w-full bg-charcoal text-cream px-4 py-3 rounded-xl border border-white/10 focus:border-gold focus:outline-none text-sm resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gold hover:bg-gold-light text-charcoal font-bold py-4 rounded-xl text-xs uppercase tracking-wider shadow-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        Confirm & Reserve via WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact Section -->
+    <section id="contact" class="py-24 bg-charcoal-dark border-t border-gold/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div>
+                        <span class="text-gold text-xs font-semibold tracking-widest uppercase block mb-2">Find Us in Gulberg III</span>
+                        <h2 className="text-3xl sm:text-5xl font-serif font-bold text-cream mb-4">Location & Hours</h2>
+                        <p class="text-cream/70 text-sm leading-relaxed">Located on MM Alam Road, Gulberg III, Lahore, Pakistan.</p>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-burgundy border border-gold/40 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fa-solid fa-location-dot text-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif font-bold text-cream text-base">Address</h4>
+                                <p class="text-xs sm:text-sm text-cream/80 mt-0.5">12-C-II, MM Alam Road, Gulberg III, Lahore, Punjab, Pakistan</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-burgundy border border-gold/40 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fa-solid fa-phone text-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif font-bold text-cream text-base">Telephone</h4>
+                                <a href="tel:+924235754416" class="text-xs sm:text-sm text-gold hover:underline block mt-0.5 font-medium">+92 42 35754416</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-burgundy border border-gold/40 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fa-solid fa-clock text-gold"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif font-bold text-cream text-base">Opening Schedule</h4>
+                                <p class="text-xs text-cream/80 mt-1">Monday – Thursday: 12:00 PM – 11:00 PM</p>
+                                <p class="text-xs text-cream/80">Friday – Sunday: 12:00 PM – 12:00 AM Midnight</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Freddys+Cafe+12-C-II+MM+Alam+Road+Gulberg+III+Lahore" target="_blank" class="bg-burgundy hover:bg-burgundy-light text-cream border border-gold/50 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-compass text-gold"></i> Google Maps Directions
+                        </a>
+                        <a href="tel:+924235754416" class="bg-charcoal-light border border-white/20 text-cream px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-gold"></i> Call Restaurant
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Google Maps Embed -->
+                <div class="bg-charcoal-light p-3 rounded-3xl border border-gold/30 shadow-2xl h-[420px]">
+                    <iframe title="Freddy's Cafe Map" src="https://maps.google.com/maps?q=Freddys+Cafe+12-C-II+MM+Alam+Road+Gulberg+III+Lahore&t=&z=15&ie=UTF8&iwloc=&output=embed" class="w-full h-full rounded-2xl border-0 grayscale hover:grayscale-0 transition-all duration-500" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Enquiry Tray Modal -->
+    <div id="trayModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end">
+        <div class="w-full max-w-md bg-charcoal border-l border-gold/30 h-full p-6 flex flex-col justify-between shadow-2xl">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-utensils text-gold"></i>
+                        <h3 class="font-serif font-bold text-lg text-cream">Enquiry Tray</h3>
+                    </div>
+                    <button onclick="closeTrayModal()" class="text-cream/60 hover:text-cream">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <div id="trayItemsList" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+                    <!-- Dynamic tray items -->
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-white/10 space-y-3">
+                <button onclick="sendTrayViaWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-base"></i> Send Tray via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal-dark border-t border-gold/20 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="space-y-3 md:col-span-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-burgundy border border-gold flex items-center justify-center text-gold font-serif font-bold">F</div>
+                        <span class="font-serif text-xl font-bold text-cream">FREDDY'S CAFÉ</span>
+                    </div>
+                    <p class="text-xs text-cream/60 leading-relaxed">Serving Lahore since 2001. A classic American diner and continental culinary landmark on MM Alam Road, Gulberg III.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-serif font-bold text-gold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-xs text-cream/70">
+                        <li><a href="#home" class="hover:text-gold">Home</a></li>
+                        <li><a href="#about" class="hover:text-gold">About Us</a></li>
+                        <li><a href="#menu" class="hover:text-gold">Interactive Menu</a></li>
+                        <li><a href="#signature" class="hover:text-gold">Signature Steaks</a></li>
+                        <li><a href="#hightea" class="hover:text-gold">High Tea Buffet</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-serif font-bold text-gold text-sm uppercase tracking-wider mb-4">Hours</h4>
+                    <div class="space-y-2 text-xs text-cream/70">
+                        <p><strong class="text-cream">Mon – Thu:</strong> 12:00 PM – 11:00 PM</p>
+                        <p><strong class="text-cream">Fri – Sun:</strong> 12:00 PM – 12:00 AM</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-serif font-bold text-gold text-sm uppercase tracking-wider mb-4">Social Links</h4>
+                    <div class="flex gap-3">
+                        <a href="https://www.instagram.com/freddyscafelahore/" target="_blank" class="w-9 h-9 rounded-full bg-charcoal-light border border-white/10 flex items-center justify-center text-gold hover:border-gold">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/FreddysCafeLahore" target="_blank" class="w-9 h-9 rounded-full bg-charcoal-light border border-white/10 flex items-center justify-center text-gold hover:border-gold">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-cream/50 gap-4">
+                <p>© 2026 Freddy's Café Lahore. All rights reserved.</p>
+                <p class="italic">Website concept based on publicly available menu information.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Verified Menu Items
+        const MENU_CATEGORIES = [
+            { id: 'all', name: 'All Items' },
+            { id: 'starters', name: 'Starters & Salads' },
+            { id: 'chicken', name: 'Chicken Specialties' },
+            { id: 'steaks', name: 'Steaks & Grilled' },
+            { id: 'seafood', name: 'Seafood' },
+            { id: 'desserts', name: 'Desserts & Cakes' },
+            { id: 'beverages', name: 'Beverages & Drinks' }
+        ];
+
+        const MENU_ITEMS = [
+            { id: 'm1', name: 'Dynamite Prawns', cat: 'starters', price: 'PKR 1,895', desc: 'Crispy fried jumbo prawns coated in signature creamy spicy dynamite sauce.', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm2', name: 'Prawns Tempura', cat: 'starters', price: 'PKR 1,795', desc: 'Golden batter-fried prawns served with sweet chili dipping sauce.', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm3', name: 'Fajita Nachos', cat: 'starters', price: 'PKR 1,495', desc: 'Tortilla chips topped with grilled fajita chicken, cheddar blend & jalapenos.', img: 'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm5', name: 'Moroccan Chicken', cat: 'chicken', price: 'PKR 1,995', desc: 'Grilled chicken breast with authentic spicy Moroccan sauce, garlic rice & veggies.', img: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm6', name: 'Tarragon Mushroom Chicken', cat: 'chicken', price: 'PKR 1,950', desc: 'Charbroiled chicken breast in creamy tarragon and button mushroom sauce.', img: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm7', name: 'Stuffed Chicken Breast', cat: 'chicken', price: 'PKR 2,150', desc: 'Fried chicken stuffed with mozzarella & spinach with garlic cream sauce.', img: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm10', name: 'Freddy\'s Prime Beef Steak', cat: 'steaks', price: 'PKR 2,895', desc: 'Prime undercut beef steak with choice of Black Pepper or Mushroom sauce.', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm12', name: 'Crispy Fish & Chips', cat: 'seafood', price: 'PKR 1,995', desc: 'Battered sole fish fillets fried golden with tartar sauce and steak fries.', img: 'https://images.unsplash.com/photo-1580218828828-d21820623a85?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm14', name: 'Nutella Chocolate Cake', cat: 'desserts', price: 'PKR 950', desc: 'Moist multi-layer fudge cake filled and frosted with rich Nutella cocoa spread.', img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm15', name: 'Caramel Cheesecake', cat: 'desserts', price: 'PKR 895', desc: 'Classic New York style baked cheesecake with warm salted caramel drizzle.', img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm16', name: 'Peach Margarita', cat: 'beverages', price: 'PKR 650', desc: 'Blended ice drink with white peach nectar and sugar-rimmed glass.', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80' },
+            { id: 'm17', name: 'Piña Colada', cat: 'beverages', price: 'PKR 695', desc: 'Creamy blend of pineapple juice, coconut milk, and crushed ice.', img: 'https://images.unsplash.com/photo-1546171753-97d7676e4602?auto=format&fit=crop&w=800&q=80' }
+        ];
+
+        let selectedCategory = 'all';
+        let tray = [];
+
+        // Initialize UI
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategoryTabs();
+            renderMenuItems();
+        });
+
+        // Toggle Mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Render Category Filter Tabs
+        function renderCategoryTabs() {
+            const container = document.getElementById('categoryTabsContainer');
+            container.innerHTML = MENU_CATEGORIES.map(cat => `
+                <button onclick="selectCategory('${cat.id}')" class="px-5 py-2.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border ${selectedCategory === cat.id ? 'bg-burgundy text-gold border-gold' : 'bg-charcoal-light text-cream/70 border-white/10 hover:text-white'}">
+                    ${cat.name}
+                </button>
+            `).join('');
+        }
+
+        function selectCategory(catId) {
+            selectedCategory = catId;
+            renderCategoryTabs();
+            renderMenuItems();
+        }
+
+        // Render Menu Grid
+        function renderMenuItems() {
+            const searchVal = document.getElementById('menuSearchInput').value.toLowerCase();
+            const grid = document.getElementById('menuCardsGrid');
+            const emptyState = document.getElementById('emptyMenuState');
+
+            const filtered = MENU_ITEMS.filter(item => {
+                const matchesCat = selectedCategory === 'all' || item.cat === selectedCategory;
+                const matchesSearch = item.name.toLowerCase().includes(searchVal) || item.desc.toLowerCase().includes(searchVal);
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(item => `
+                <div class="bg-charcoal-light rounded-2xl overflow-hidden border border-white/5 hover:border-gold/40 transition-all duration-300 flex flex-col justify-between shadow-xl">
+                    <div>
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-charcoal/90 border border-gold/50 text-gold font-serif font-bold text-xs px-3 py-1 rounded-full">${item.price}</span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-lg font-serif font-bold text-cream mb-1.5">${item.name}</h3>
+                            <p class="text-xs text-cream/70 leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <button onclick="addToTray('${item.id}')" class="w-full bg-charcoal hover:bg-burgundy text-cream border border-gold/30 hover:border-gold py-2.5 rounded-xl text-xs font-semibold uppercase transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus text-gold"></i> Add to Enquiry Tray
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMenuItems() {
+            renderMenuItems();
+        }
+
+        function resetMenuFilters() {
+            selectedCategory = 'all';
+            document.getElementById('menuSearchInput').value = '';
+            renderCategoryTabs();
+            renderMenuItems();
+        }
+
+        // Tray Operations
+        function addToTray(id) {
+            const item = MENU_ITEMS.find(i => i.id === id);
+            if (!item) return;
+
+            const existing = tray.find(t => t.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                tray.push({ ...item, qty: 1 });
+            }
+
+            updateTrayBadge();
+            renderTrayItems();
+            openTrayModal();
+        }
+
+        function updateTrayBadge() {
+            const badge = document.getElementById('trayCountBadge');
+            const total = tray.reduce((sum, i) => sum + i.qty, 0);
+            if (total > 0) {
+                badge.innerText = total;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function renderTrayItems() {
+            const container = document.getElementById('trayItemsList');
+            if (tray.length === 0) {
+                container.innerHTML = `<p class="text-center text-cream/50 text-xs py-12">Your enquiry tray is empty.</p>`;
+                return;
+            }
+
+            container.innerHTML = tray.map(item => `
+                <div class="bg-charcoal-light p-3.5 rounded-xl border border-white/5 flex items-center justify-between">
+                    <div>
+                        <h5 class="font-serif font-bold text-xs text-cream">${item.name}</h5>
+                        <p class="text-[11px] text-gold">${item.price}</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-charcoal border border-white/10 px-2 py-1 rounded-lg">
+                        <button onclick="changeQty('${item.id}', -1)" class="text-xs text-white px-1 font-bold">-</button>
+                        <span class="text-xs font-bold text-gold px-1">${item.qty}</span>
+                        <button onclick="changeQty('${item.id}', 1)" class="text-xs text-white px-1 font-bold">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function changeQty(id, delta) {
+            const item = tray.find(i => i.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                tray = tray.filter(i => i.id !== id);
+            }
+            updateTrayBadge();
+            renderTrayItems();
+        }
+
+        function openTrayModal() {
+            renderTrayItems();
+            document.getElementById('trayModal').classList.remove('hidden');
+        }
+
+        function closeTrayModal() {
+            document.getElementById('trayModal').classList.add('hidden');
+        }
+
+        function sendTrayViaWhatsApp() {
+            if (tray.length === 0) return;
+            const itemsText = tray.map(i => `• ${i.name} x${i.qty} (${i.price})`).join('%0A');
+            const msg = `*Freddy's Café Lahore — Menu Item Enquiry*%0A%0A${itemsText}%0A%0APlease let me know the availability and ordering details.`;
+            window.open(`https://wa.me/924235754416?text=${msg}`, '_blank');
+        }
+
+        // Lightbox Gallery
+        function openLightbox(url, caption) {
+            document.getElementById('lightboxImage').src = url;
+            document.getElementById('lightboxCaption').innerText = caption;
+            document.getElementById('lightboxModal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+        }
+
+        // Reservation Form Submission
+        function handleReservationSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('resName').value;
+            const phone = document.getElementById('resPhone').value;
+            const date = document.getElementById('resDate').value;
+            const time = document.getElementById('resTime').value;
+            const guests = document.getElementById('resGuests').value;
+            const notes = document.getElementById('resNotes').value;
+
+            const msg = `*Freddy's Café Lahore — Table Reservation Request*%0A` +
+                `*Name:* ${encodeURIComponent(name)}%0A` +
+                `*Phone:* ${encodeURIComponent(phone)}%0A` +
+                `*Date:* ${encodeURIComponent(date)}%0A` +
+                `*Time:* ${encodeURIComponent(time)}%0A` +
+                `*Guests:* ${encodeURIComponent(guests)}%0A` +
+                (notes ? `*Special Request:* ${encodeURIComponent(notes)}%0A` : '') +
+                `--------------------------------%0A` +
+                `Please confirm table availability at MM Alam Road.`;
+
+            window.open(`https://wa.me/924235754416?text=${msg}`, '_blank');
+        }
+    </script>
+</body>
+</html>
